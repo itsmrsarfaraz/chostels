@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hostel_rules', function (Blueprint $table) {
+        Schema::create('hostel_facilities', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('hostel_id')->constrained()->cascadeOnDelete();
+            $table->string('facility');
             $table->timestamps();
+            $table->unique(['hostel_id','facility']);
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hostel_rules');
+        Schema::dropIfExists('hostel_facilities');
     }
 };

@@ -21,4 +21,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/complete-profile', [ProfileCompletionController::class, 'store'])->name('profile.complete.store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';    

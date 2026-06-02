@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('hostel_nearby_places', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('hostel_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->string('type');
+            $table->decimal('distance_km', 8, 2);
             $table->timestamps();
         });
     }

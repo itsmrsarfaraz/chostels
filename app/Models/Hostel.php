@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Support\Str;
@@ -37,6 +38,23 @@ class Hostel extends Model implements HasMedia
         return $this->belongsTo(User::class, 'owner_id');
     }
 
+    public function facilities(): HasMany
+    {
+        return $this->hasMany(HostelFacility::class);
+    }
+
+    public function rules(): HasMany
+    {
+        return $this->hasMany(HostelRule::class);
+    }
+
+    public function nearbyPlaces(): HasMany
+    {
+        return $this->hasMany(HostelNearbyPlace::class);
+    }
+
+    // -------- Helper Methods --------
+    
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('logo')
@@ -48,7 +66,6 @@ class Hostel extends Model implements HasMedia
         $this->addMediaCollection('gallery');
     }
 
-    // -------- Helper Methods --------
     protected static function booted(): void
     {
         static::creating(function ($hostel) {
