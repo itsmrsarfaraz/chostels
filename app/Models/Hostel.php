@@ -59,6 +59,11 @@ class Hostel extends Model implements HasMedia
         return $this->hasMany(Room::class);
     }
 
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     // -------- Helper Methods --------
     
     public function registerMediaCollections(): void

@@ -32,6 +32,11 @@ class Room extends Model
         return $this->hasMany(Bed::class);
     }
 
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     // ---------- Accessors & Mutators -----------
     protected static function booted(): void
     {
