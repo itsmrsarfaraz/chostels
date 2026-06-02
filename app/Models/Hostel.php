@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Support\Str;
 
 class Hostel extends Model implements HasMedia
 {
@@ -45,5 +46,17 @@ class Hostel extends Model implements HasMedia
             ->singleFile();
 
         $this->addMediaCollection('gallery');
+    }
+
+    // -------- Helper Methods --------
+    protected static function booted(): void
+    {
+        static::creating(function ($hostel) {
+            $slug = Str::slug($hostel->name);
+            $count = static::where('slug', 'like', "{$slug}%")->count();
+            $hostel->slug = $count
+                ? "{$slug}-".($count + 1)
+                : $slug;
+        });
     }
 }

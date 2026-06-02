@@ -22,8 +22,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-require __DIR__ . '/admin.php';
-require __DIR__ . '/owner.php';
-require __DIR__ . '/seeker.php';
-require __DIR__ . '/warden.php';
