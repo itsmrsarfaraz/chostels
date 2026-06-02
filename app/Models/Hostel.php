@@ -33,6 +33,7 @@ class Hostel extends Model implements HasMedia
         'has_mess_menu' => 'boolean',
     ];
 
+    // -------- Relationships --------
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -51,6 +52,11 @@ class Hostel extends Model implements HasMedia
     public function nearbyPlaces(): HasMany
     {
         return $this->hasMany(HostelNearbyPlace::class);
+    }
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Room::class);
     }
 
     // -------- Helper Methods --------
