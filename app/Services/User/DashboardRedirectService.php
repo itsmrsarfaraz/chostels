@@ -10,17 +10,17 @@ class DashboardRedirectService
     public function getRedirect(User $user): string
     {
         if ($user->hasRole(RoleEnum::SUPER_ADMIN->value)) {
-            return route('admin.dashboard');
+            return 'admin.dashboard';
         }
 
         if ($user->hasRole(RoleEnum::OWNER->value)) {
-            return route('owner.dashboard');
+            return 'owner.dashboard';
         }
 
         if ($user->hasRole(RoleEnum::WARDEN->value)) {
-            return route('warden.dashboard');
+            return 'warden.dashboard';
         }
 
-        return route('seeker.dashboard');
+        return 'seeker.dashboard';
     }
 }
