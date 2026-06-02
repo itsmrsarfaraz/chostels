@@ -24,6 +24,7 @@
                 <select name="gender" class="border rounded w-full">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
 

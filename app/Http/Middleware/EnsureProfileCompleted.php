@@ -18,20 +18,16 @@ class EnsureProfileCompleted
 
         $service = app(ProfileCompletionService::class);
 
-        if (
-            $user->hasRole('owner')
-            && ! $service->isOwnerProfileComplete($user)
-        ) {
-            return redirect()
-                ->route('profile.complete');
+        if ($request->routeIs('profile.complete') || $request->routeIs('profile.complete.store')) {
+            return $next($request);
         }
 
-        if (
-            $user->hasRole('seeker')
-            && ! $service->isSeekerProfileComplete($user)
-        ) {
-            return redirect()
-                ->route('profile.complete');
+        if ($user->hasRole('owner') && ! $service->isOwnerProfileComplete($user)) {
+            return redirect()->route('profile.complete');
+        }
+
+        if ($user->hasRole('seeker') && ! $service->isSeekerProfileComplete($user)) {
+            return redirect()->route('profile.complete');
         }
 
         return $next($request);
