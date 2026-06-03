@@ -57,9 +57,16 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Booking::class, 'seeker_id');
     }
 
+    // ------ Media Library ------
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatar')
             ->singleFile();
+    }
+
+    // ------ Helper Methods ------
+    public function hasCompletedOnboarding(): bool
+    {
+        return ! is_null($this->password_set_at);
     }
 }

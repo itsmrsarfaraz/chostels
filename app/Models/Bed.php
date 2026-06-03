@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Bed\BedStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,10 @@ class Bed extends Model
         'room_id',
         'bed_number',
         'status',
+    ];
+
+    protected $casts = [
+        'status' => BedStatusEnum::class,
     ];
 
     // ----------- Relationships -----------

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\Bed\BedStatusEnum;
+use App\Enums\Booking\BookingSourceEnum;
+use App\Enums\Booking\BookingStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,10 +15,18 @@ class Booking extends Model
         'room_id',
         'bed_id',
         'seeker_id',
+        'status',
         'check_in_date',
         'check_out_date',
         'monthly_rent',
-        'status',
+        'source',
+    ];
+
+    protected $casts = [
+        'check_in_date' => 'date',
+        'check_out_date' => 'date',
+        'status' => BookingStatusEnum::class,
+        'source' => BookingSourceEnum::class,
     ];
 
     public function hostel(): BelongsTo
@@ -39,12 +50,5 @@ class Booking extends Model
     }
 
     // ---------- Helper Methods ---------
-    protected static function booted(): void
-    {
-        static::created(function ($booking) {
-            $booking->bed->update([
-                'status' => 'occupied',
-            ]);
-        });
-    }
+    
 }

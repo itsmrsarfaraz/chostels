@@ -10,18 +10,10 @@ return new class extends Migration
     {
         Schema::create('owner_profiles', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('user_id')
-                ->unique()
-                ->constrained()
-                ->cascadeOnDelete();
-
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('phone', 30)->nullable();
-
-            $table->string('cnic', 30)->nullable();
-
+            $table->string('cnic', 30)->nullable()->unique();
             $table->string('gender', 20)->nullable();
-
             $table->timestamps();
         });
     }
