@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\StoreBookingRequest;
 use App\Http\Requests\Owner\UpdateBookingRequest;
 use App\Models\Booking;
+use App\Models\User;
 use App\Services\Booking\BookingLifecycleService;
 use App\Services\Booking\BookingService;
 use App\Services\Booking\BookingStatusService;
 use App\Services\Booking\CreateBookingService;
+use App\Services\Booking\CreateOwnerBookingService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -36,10 +38,11 @@ class BookingController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $hostels = $user->hostels()->with('rooms.beds')->get();
-        return view('owner.bookings.create', compact('hostels'));
+        $seekers = User::role('seeker')->orderBy('name')->get();
+        return view('owner.bookings.create', compact('hostels', 'seekers'));
     }
 
-    public function store(StoreBookingRequest $request, CreateBookingService $service) {
+    public function store(StoreBookingRequest $request, CreateOwnerBookingService $service) {
         $service->create($request->validated());
         return redirect()->route('owner.bookings.index');
     }

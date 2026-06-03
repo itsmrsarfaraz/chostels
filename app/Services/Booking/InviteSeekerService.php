@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\SeekerProfile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class InviteSeekerService
 {
@@ -16,10 +17,9 @@ class InviteSeekerService
             'email' => $data['email'],
             'password' => Hash::make(Str::random(40)),
             'is_invited' => true,
+            'email_verified_at' => null,
         ]);
-
         $user->assignRole('seeker');
-
         SeekerProfile::create([
             'user_id' => $user->id,
             'phone' => $data['phone'],
@@ -28,7 +28,7 @@ class InviteSeekerService
             'home_city' => $data['home_city'] ?? null,
             'current_city' => $data['current_city'] ?? null,
         ]);
-
+        Password::sendResetLink(['email' => $user->email,]);
         return $user;
     }
 }

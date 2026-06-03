@@ -37,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
             'profile.complete' => \App\Http\Middleware\EnsureProfileCompleted::class,
+            'password.set' => \App\Http\Middleware\EnsurePasswordIsSet::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

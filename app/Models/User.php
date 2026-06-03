@@ -69,4 +69,14 @@ class User extends Authenticatable implements HasMedia
     {
         return ! is_null($this->password_set_at);
     }
+
+    public function isInvited(): bool
+    {
+        return $this->is_invited;
+    }
+
+    public function hasSetPassword(): bool
+    {
+        return ! is_null($this->password_set_at);
+    }
 }
