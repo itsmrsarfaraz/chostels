@@ -37,6 +37,26 @@ class BookingPolicy
         return $booking->hostel->owner_id === $user->id;
     }
 
+    public function confirm(User $user, Booking $booking): bool
+    {
+        return $booking->hostel->owner_id === $user->id;
+    }
+
+    public function checkIn(User $user, Booking $booking): bool
+    {
+        return $booking->hostel->owner_id === $user->id;
+    }
+
+    public function checkOut(User $user, Booking $booking): bool
+    {
+        return $booking->hostel->owner_id === $user->id;
+    }
+
+    public function cancel(User $user, Booking $booking): bool
+    {
+        return $booking->hostel->owner_id === $user->id;
+    }
+
     /**
      * Determine whether the user can update the model.
      */

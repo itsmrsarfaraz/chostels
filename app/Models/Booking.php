@@ -49,6 +49,42 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'seeker_id');
     }
 
+    public function confirm(): void
+    {
+        $this->update([
+            'status' => BookingStatusEnum::CONFIRMED->value,
+        ]);
+    }
+
+    public function checkIn(): void
+    {
+        $this->update([
+            'status' => BookingStatusEnum::CHECKED_IN->value,
+        ]);
+    }
+
+    public function checkOut(): void
+    {
+        $this->update([
+            'status' => BookingStatusEnum::CHECKED_OUT->value,
+        ]);
+
+        $this->bed->update([
+            'status' => 'available',
+        ]);
+    }
+
+    public function cancel(): void
+    {
+        $this->update([
+            'status' => BookingStatusEnum::CANCELLED->value,
+        ]);
+
+        $this->bed->update([
+            'status' => 'available',
+        ]);
+    }
+
     // ---------- Helper Methods ---------
     
 }
