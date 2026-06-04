@@ -36,6 +36,7 @@
                 <td>{{ $booking->status->value }}</td>
 
                 <td>
+                    <a href="{{ route('owner.bookings.show', $booking) }}">View</a>
 
                     @if($booking->status === \App\Enums\Booking\BookingStatusEnum::PENDING)
 

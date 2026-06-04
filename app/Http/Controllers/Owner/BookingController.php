@@ -9,8 +9,6 @@ use App\Models\Booking;
 use App\Models\User;
 use App\Services\Booking\BookingLifecycleService;
 use App\Services\Booking\BookingService;
-use App\Services\Booking\BookingStatusService;
-use App\Services\Booking\CreateBookingService;
 use App\Services\Booking\CreateOwnerBookingService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -40,6 +38,20 @@ class BookingController extends Controller
         $hostels = $user->hostels()->with('rooms.beds')->get();
         $seekers = User::role('seeker')->orderBy('name')->get();
         return view('owner.bookings.create', compact('hostels', 'seekers'));
+    }
+
+    public function show(Booking $booking)
+    {
+        Gate::authorize('view', $booking);
+
+        $booking->load([
+            'hostel',
+            'room',
+            'bed',
+            'seeker',
+        ]);
+
+        return view('owner.bookings.show', compact('booking'));
     }
 
     public function store(StoreBookingRequest $request, CreateOwnerBookingService $service) {

@@ -29,6 +29,28 @@ class Booking extends Model
         'source' => BookingSourceEnum::class,
     ];
 
+    protected $with = [
+        'hostel',
+        'room',
+        'bed',
+        'seeker',
+    ];
+
+    public function scopePending($query)
+    {
+        return $query->where('status', BookingStatusEnum::PENDING);
+    }
+
+    public function scopeConfirmed($query)
+    {
+        return $query->where('status', BookingStatusEnum::CONFIRMED);
+    }
+
+    public function scopeCheckedIn($query)
+    {
+        return $query->where('status', BookingStatusEnum::CHECKED_IN);
+    }
+
     public function hostel(): BelongsTo
     {
         return $this->belongsTo(Hostel::class);
