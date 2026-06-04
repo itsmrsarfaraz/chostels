@@ -2,6 +2,7 @@
 
 namespace App\Services\Booking;
 
+use App\Enums\Booking\BookingStatusEnum;
 use App\Models\Booking;
 
 class BookingLifecycleService
@@ -24,5 +25,17 @@ class BookingLifecycleService
     public function cancel(Booking $booking): void
     {
         $booking->cancel();
+    }
+
+    public function accept(Booking $booking): void {
+        $booking->update([
+            'status' => BookingStatusEnum::CONFIRMED
+        ]);
+    }
+
+    public function reject(Booking $booking): void {
+        $booking->update([
+            'status' => BookingStatusEnum::REJECTED
+        ]);
     }
 }

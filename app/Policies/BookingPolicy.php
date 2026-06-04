@@ -57,6 +57,14 @@ class BookingPolicy
         return $booking->hostel->owner_id === $user->id;
     }
 
+    public function accept(User $user, Booking $booking): bool {
+        return $booking->seeker_id === $user->id;
+    }
+
+    public function reject(User $user, Booking $booking): bool {
+        return $booking->seeker_id === $user->id;
+    }
+
     /**
      * Determine whether the user can update the model.
      */
