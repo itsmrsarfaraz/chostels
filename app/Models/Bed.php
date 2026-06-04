@@ -29,5 +29,14 @@ class Bed extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    // ----------- Accessors & Mutators -----------
+    public function scopeAvailable($query)
+    {
+        return $query->where(
+            'status',
+            \App\Enums\Bed\BedStatusEnum::AVAILABLE
+        );
+    }
     
 }
