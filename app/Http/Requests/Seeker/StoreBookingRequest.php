@@ -2,28 +2,23 @@
 
 namespace App\Http\Requests\Seeker;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBookingRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'hostel_id' => ['required', 'exists:hostels,id'],
+            'room_id' => ['required', 'exists:rooms,id'],
+            'bed_id' => ['required', 'exists:beds,id'],
+            'check_in_date' => ['required', 'date'],
+            'monthly_rent' => ['required', 'numeric'],
         ];
     }
 }

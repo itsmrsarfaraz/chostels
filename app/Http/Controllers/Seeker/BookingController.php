@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Seeker;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Seeker\StoreBookingRequest;
 use App\Models\Booking;
 use App\Services\Booking\BookingLifecycleService;
+use App\Services\Booking\CreateSelfBookingService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -31,10 +33,7 @@ class BookingController extends Controller
                 ->count(),
         ];
 
-        return view(
-            'seeker.bookings.index',
-            compact('bookings', 'stats')
-        );
+        return view('seeker.bookings.index', compact('bookings', 'stats'));
     }
 
     public function accept(Booking $booking, BookingLifecycleService $service) {
@@ -48,4 +47,12 @@ class BookingController extends Controller
         $service->reject($booking);
         return back();
     }
+
+    public function store(StoreBookingRequest $request, CreateSelfBookingService $service) {
+        $service->create($request->validated());
+        return redirect()
+            ->route('seeker.bookings.index')
+            ->with('success', 'Booking request submitted.');
+    }
+
 }

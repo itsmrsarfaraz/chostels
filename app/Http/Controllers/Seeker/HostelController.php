@@ -9,20 +9,23 @@ class HostelController extends Controller
 {
     public function index()
     {
-        $hostels = Hostel::query()->withCount('rooms')->latest()->paginate(12);
+        $hostels = Hostel::query()
+            ->where('status', 'published')
+            ->latest()
+            ->paginate(12);
+
         return view('seeker.hostels.index', compact('hostels'));
     }
 
-    public function show(Hostel $hostel) {
-        $hostel->load(['rooms' => function ($query) {
-            $query->with(['beds' => function ($query) {
-                $query->available();
-                }]);
-            },
+    public function show(Hostel $hostel)
+    {
+        $hostel->load([
+            'rooms.beds',
             'facilities',
             'rules',
             'nearbyPlaces',
         ]);
+
         return view('seeker.hostels.show', compact('hostel'));
     }
 }
