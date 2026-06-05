@@ -82,9 +82,7 @@ class Hostel extends Model implements HasMedia
         static::creating(function ($hostel) {
             $slug = Str::slug($hostel->name);
             $count = static::where('slug', 'like', "{$slug}%")->count();
-            $hostel->slug = $count
-                ? "{$slug}-".($count + 1)
-                : $slug;
+            $hostel->slug = $count ? "{$slug}-".($count + 1) : $slug;
         });
     }
 }

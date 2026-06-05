@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Bed\BedStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -31,7 +32,7 @@ class Bed extends Model
     }
 
     // ----------- Accessors & Mutators -----------
-    public function scopeAvailable($query)
+    public function scopeAvailable($query): Builder
     {
         return $query->where(
             'status',

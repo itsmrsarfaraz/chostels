@@ -19,7 +19,6 @@ class BookingController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-
         $bookings = Booking::query()
             ->whereHas('hostel', function ($query) use ($user) {
                 $query->where('owner_id', $user->id);
@@ -27,7 +26,6 @@ class BookingController extends Controller
             ->with(['hostel', 'room', 'bed', 'seeker',])
             ->latest()
             ->get();
-
         return view('owner.bookings.index', compact('bookings'));
     }
 
@@ -43,14 +41,12 @@ class BookingController extends Controller
     public function show(Booking $booking)
     {
         Gate::authorize('view', $booking);
-
         $booking->load([
             'hostel',
             'room',
             'bed',
             'seeker',
         ]);
-
         return view('owner.bookings.show', compact('booking'));
     }
 
@@ -62,50 +58,39 @@ class BookingController extends Controller
     public function edit(Booking $booking)
     {
         Gate::authorize('update', $booking);
-
         return view('owner.bookings.edit', compact('booking'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking, BookingService $service) {
         Gate::authorize('update', $booking);
-
         $service->update(
             $booking,
             $request->validated()
         );
-
         return redirect()->route('owner.bookings.index');
     }
 
     public function confirm(Booking $booking, BookingLifecycleService $service) {
         Gate::authorize('confirm', $booking);
-
         $service->confirm($booking);
-
         return back();
     }
 
     public function checkIn(Booking $booking, BookingLifecycleService $service) {
         Gate::authorize('checkIn', $booking);
-
         $service->checkIn($booking);
-
         return back();
     }
 
     public function checkOut(Booking $booking, BookingLifecycleService $service) {
         Gate::authorize('checkOut', $booking);
-
         $service->checkOut($booking);
-
         return back();
     }
 
     public function cancel(Booking $booking, BookingLifecycleService $service) {
         Gate::authorize('cancel', $booking);
-
         $service->cancel($booking);
-
         return back();
     }
 }

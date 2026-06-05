@@ -44,7 +44,7 @@ class CreateOwnerBookingService
                 'check_in_date' => $data['check_in_date'],
                 'monthly_rent' => $data['monthly_rent'],
 
-                'status' => BookingStatusEnum::PENDING,
+                'status' => BookingStatusEnum::AWAITING_ACCEPTANCE,
                 'source' => BookingSourceEnum::OWNER,
             ]);
         });

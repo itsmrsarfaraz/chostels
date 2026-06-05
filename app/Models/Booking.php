@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\Bed\BedStatusEnum;
 use App\Enums\Booking\BookingSourceEnum;
 use App\Enums\Booking\BookingStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -36,21 +36,32 @@ class Booking extends Model
         'seeker',
     ];
 
-    public function scopePending($query)
+    // ----------- Scopes -----------
+    public function scopePending($query): Builder
     {
-        return $query->where('status', BookingStatusEnum::PENDING);
+        return $query->where(
+            'status',
+            BookingStatusEnum::PENDING
+        );
     }
 
-    public function scopeConfirmed($query)
+    public function scopeConfirmed($query): Builder
     {
-        return $query->where('status', BookingStatusEnum::CONFIRMED);
+        return $query->where(
+            'status',
+            BookingStatusEnum::CONFIRMED
+        );
     }
 
-    public function scopeCheckedIn($query)
+    public function scopeCheckedIn($query): Builder
     {
-        return $query->where('status', BookingStatusEnum::CHECKED_IN);
+        return $query->where(
+            'status',
+            BookingStatusEnum::CHECKED_IN
+        );
     }
 
+    // ---------- Relationships -----------
     public function hostel(): BelongsTo
     {
         return $this->belongsTo(Hostel::class);
@@ -69,42 +80,6 @@ class Booking extends Model
     public function seeker(): BelongsTo
     {
         return $this->belongsTo(User::class, 'seeker_id');
-    }
-
-    public function confirm(): void
-    {
-        $this->update([
-            'status' => BookingStatusEnum::CONFIRMED->value,
-        ]);
-    }
-
-    public function checkIn(): void
-    {
-        $this->update([
-            'status' => BookingStatusEnum::CHECKED_IN->value,
-        ]);
-    }
-
-    public function checkOut(): void
-    {
-        $this->update([
-            'status' => BookingStatusEnum::CHECKED_OUT->value,
-        ]);
-
-        $this->bed->update([
-            'status' => 'available',
-        ]);
-    }
-
-    public function cancel(): void
-    {
-        $this->update([
-            'status' => BookingStatusEnum::CANCELLED->value,
-        ]);
-
-        $this->bed->update([
-            'status' => 'available',
-        ]);
     }
 
     // ---------- Helper Methods ---------
