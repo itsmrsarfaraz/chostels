@@ -20,13 +20,32 @@ class BookingController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $bookings = Booking::query()
-            ->whereHas('hostel', function ($query) use ($user) {
-                $query->where('owner_id', $user->id);
-            })
-            ->with(['hostel', 'room', 'bed', 'seeker',])
+            ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
             ->latest()
-            ->get();
-        return view('owner.bookings.index', compact('bookings'));
+            ->paginate(20);
+
+        $stats = [
+            'total' => Booking::query()
+                ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+                ->count(),
+
+            'pending' => Booking::query()
+                ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+                ->where('status', 'pending')
+                ->count(),
+
+            'confirmed' => Booking::query()
+                ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+                ->where('status', 'confirmed')
+                ->count(),
+
+            'checked_in' => Booking::query()
+                ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+                ->where('status', 'checked_in')
+                ->count(),
+        ];
+
+        return view('owner.bookings.index', compact('bookings', 'stats'));
     }
 
     public function create()

@@ -14,8 +14,27 @@ class BookingController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        $bookings = $user->bookings()->with(['hostel', 'room', 'bed'])->latest()->get();
-        return view('seeker.bookings.index',compact('bookings'));
+        $bookings = $user->bookings()->latest()->paginate(20);
+        $stats = [
+            'total' => $user->bookings()->count(),
+
+            'pending' => $user->bookings()
+                ->where('status', 'pending')
+                ->count(),
+
+            'confirmed' => $user->bookings()
+                ->where('status', 'confirmed')
+                ->count(),
+
+            'checked_in' => $user->bookings()
+                ->where('status', 'checked_in')
+                ->count(),
+        ];
+
+        return view(
+            'seeker.bookings.index',
+            compact('bookings', 'stats')
+        );
     }
 
     public function accept(Booking $booking, BookingLifecycleService $service) {

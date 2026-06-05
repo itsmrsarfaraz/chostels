@@ -6,6 +6,38 @@
         Create Booking
     </a>
 
+    <div class="grid grid-cols-4 gap-4 mb-6">
+
+        <div class="p-4 bg-white rounded shadow">
+            <h3>Total</h3>
+            <div class="text-3xl font-bold">
+                {{ $stats['total'] }}
+            </div>
+        </div>
+
+        <div class="p-4 bg-white rounded shadow">
+            <h3>Pending</h3>
+            <div class="text-3xl font-bold">
+                {{ $stats['pending'] }}
+            </div>
+        </div>
+
+        <div class="p-4 bg-white rounded shadow">
+            <h3>Confirmed</h3>
+            <div class="text-3xl font-bold">
+                {{ $stats['confirmed'] }}
+            </div>
+        </div>
+
+        <div class="p-4 bg-white rounded shadow">
+            <h3>Checked In</h3>
+            <div class="text-3xl font-bold">
+                {{ $stats['checked_in'] }}
+            </div>
+        </div>
+
+    </div>
+
     <table>
 
         <thead>
