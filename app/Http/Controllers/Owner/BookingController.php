@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Owner;
 
+use App\Enums\Booking\BookingStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\StoreBookingRequest;
 use App\Http\Requests\Owner\UpdateBookingRequest;
@@ -42,6 +43,17 @@ class BookingController extends Controller
             'checked_in' => Booking::query()
                 ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
                 ->where('status', 'checked_in')
+                ->count(),
+
+            'requests' => Booking::query()
+                ->whereHas(
+                    'hostel',
+                    fn ($q) => $q->where('owner_id', $user->id)
+                )
+                ->where(
+                    'status',
+                    BookingStatusEnum::AWAITING_ACCEPTANCE
+                )
                 ->count(),
         ];
 
@@ -110,18 +122,6 @@ class BookingController extends Controller
     public function cancel(Booking $booking, BookingLifecycleService $service) {
         Gate::authorize('cancel', $booking);
         $service->cancel($booking);
-        return back();
-    }
-
-    public function approveRequest(Booking $booking, BookingLifecycleService $service) {
-        Gate::authorize('approveRequest', $booking);
-        $service->approveRequest($booking);
-        return back();
-    }
-
-    public function rejectRequest(Booking $booking, BookingLifecycleService $service) {
-        Gate::authorize('rejectRequest', $booking);
-        $service->rejectRequest($booking);
         return back();
     }
 }
