@@ -61,4 +61,16 @@ class BookingLifecycleService
             'status' => BookingStatusEnum::REJECTED,
         ]);
     }
+
+    public function approveRequest(Booking $booking): void {
+        $booking->update([
+            'status' => BookingStatusEnum::CONFIRMED,
+        ]);
+    }
+
+    public function rejectRequest(Booking $booking): void {
+        $booking->update([
+            'status' => BookingStatusEnum::REJECTED,
+        ]);
+    }
 }

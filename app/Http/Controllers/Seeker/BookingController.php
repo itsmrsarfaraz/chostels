@@ -48,11 +48,4 @@ class BookingController extends Controller
         return back();
     }
 
-    public function store(StoreBookingRequest $request, CreateSelfBookingService $service) {
-        $service->create($request->validated());
-        return redirect()
-            ->route('seeker.bookings.index')
-            ->with('success', 'Booking request submitted.');
-    }
-
 }

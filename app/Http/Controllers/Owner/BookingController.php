@@ -46,14 +46,18 @@ class BookingController extends Controller
                 ->count(),
 
             'requests' => Booking::query()
-                ->whereHas(
-                    'hostel',
-                    fn ($q) => $q->where('owner_id', $user->id)
-                )
-                ->where(
-                    'status',
-                    BookingStatusEnum::AWAITING_ACCEPTANCE
-                )
+                ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+                ->where('status', BookingStatusEnum::AWAITING_ACCEPTANCE)
+                ->count(),
+
+            'awaiting_acceptance' => Booking::query()
+                ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+                ->where('status', BookingStatusEnum::AWAITING_ACCEPTANCE)
+                ->count(),
+
+            'awaiting_owner_approval' => Booking::query()
+                ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+                ->where('status', BookingStatusEnum::AWAITING_OWNER_APPROVAL)
                 ->count(),
         ];
 

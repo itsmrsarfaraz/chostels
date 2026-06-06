@@ -25,7 +25,6 @@ class HostelController extends Controller
             'rules',
             'nearbyPlaces',
         ]);
-
         return view('seeker.hostels.show', compact('hostel'));
     }
 }
