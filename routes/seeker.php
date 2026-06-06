@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Seeker\BookingController;
+use App\Http\Controllers\Seeker\BookingRequestController;
 use App\Http\Controllers\Seeker\HostelController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +19,6 @@ Route::middleware(['auth', 'verified', 'role:seeker', 'profile.complete',])->gro
         Route::patch('/{booking}/accept', [BookingController::class, 'accept'])->name('accept');
         Route::patch('/{booking}/reject', [BookingController::class, 'reject'])->name('reject');
     });
+
+    Route::post('booking-requests',[BookingRequestController::class, 'store'])->name('booking-requests.store');
 });
