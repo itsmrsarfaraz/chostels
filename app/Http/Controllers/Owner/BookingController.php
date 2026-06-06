@@ -64,6 +64,18 @@ class BookingController extends Controller
         return view('owner.bookings.index', compact('bookings', 'stats'));
     }
 
+    public function requests()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $bookings = Booking::query()
+            ->whereHas('hostel', fn ($q) => $q->where('owner_id', $user->id))
+            ->where('status', BookingStatusEnum::AWAITING_OWNER_APPROVAL)
+            ->latest()
+            ->paginate(20);
+        return view('owner.bookings.requests', compact('bookings'));
+    }
+
     public function create()
     {
         /** @var \App\Models\User $user */

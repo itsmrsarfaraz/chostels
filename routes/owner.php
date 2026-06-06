@@ -12,4 +12,5 @@ Route::middleware(['auth', 'verified', 'role:owner', 'profile.complete',])->grou
     Route::patch('bookings/{booking}/check-in', [BookingController::class, 'checkIn'])->name('bookings.check-in');
     Route::patch('bookings/{booking}/check-out', [BookingController::class, 'checkOut'])->name('bookings.check-out');
     Route::patch('bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+    Route::get('booking-requests', [BookingController::class, 'requests'])->name('booking-requests.index');
 });

@@ -2,6 +2,10 @@
 
     <h1>Bookings</h1>
 
+    <a href="{{ route('owner.booking-requests.index') }}" class="bg-yellow-500 text-white px-4 py-2 rounded">
+        View Booking Requests
+    </a>
+
     <a href="{{ route('owner.bookings.create') }}">
         Create Booking
     </a>
@@ -33,6 +37,13 @@
             <h3>Checked In</h3>
             <div class="text-3xl font-bold">
                 {{ $stats['checked_in'] }}
+            </div>
+        </div>
+
+        <div class="p-4 bg-white rounded shadow">
+            <h3>Requests</h3>
+            <div class="text-3xl font-bold">
+                {{ $stats['awaiting_owner_approval'] }}
             </div>
         </div>
 
