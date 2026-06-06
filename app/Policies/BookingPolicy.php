@@ -52,6 +52,14 @@ class BookingPolicy
         return $booking->hostel->owner_id === $user->id;
     }
 
+    public function approveRequest(User $user, Booking $booking): bool {
+        return $booking->hostel->owner_id === $user->id;
+    }
+
+    public function rejectRequest(User $user, Booking $booking): bool {
+        return $booking->hostel->owner_id === $user->id;
+    }
+
     public function cancel(User $user, Booking $booking): bool
     {
         return $booking->hostel->owner_id === $user->id;

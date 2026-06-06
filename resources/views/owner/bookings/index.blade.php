@@ -70,6 +70,35 @@
                 <td>
                     <a href="{{ route('owner.bookings.show', $booking) }}">View</a>
 
+                    @if($booking->status === \App\Enums\Booking\BookingStatusEnum::AWAITING_ACCEPTANCE)
+                    <form
+                        method="POST"
+                        action="{{ route('owner.bookings.approve-request',$booking) }}"
+                        class="inline"
+                    >
+                        @csrf
+                        @method('PATCH')
+
+                        <button class="bg-green-500 text-white px-3 py-1 rounded">
+                            Approve
+                        </button>
+                    </form>
+
+                    <form
+                        method="POST"
+                        action="{{ route('owner.bookings.reject-request',$booking) }}"
+                        class="inline"
+                    >
+                        @csrf
+                        @method('PATCH')
+
+                        <button class="bg-red-500 text-white px-3 py-1 rounded">
+                            Reject
+                        </button>
+                    </form>
+
+                    @endif
+
                     @if($booking->status === \App\Enums\Booking\BookingStatusEnum::PENDING)
 
                         <form

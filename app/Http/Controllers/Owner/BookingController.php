@@ -112,4 +112,16 @@ class BookingController extends Controller
         $service->cancel($booking);
         return back();
     }
+
+    public function approveRequest(Booking $booking, BookingLifecycleService $service) {
+        Gate::authorize('approveRequest', $booking);
+        $service->approveRequest($booking);
+        return back();
+    }
+
+    public function rejectRequest(Booking $booking, BookingLifecycleService $service) {
+        Gate::authorize('rejectRequest', $booking);
+        $service->rejectRequest($booking);
+        return back();
+    }
 }

@@ -48,6 +48,23 @@ class BookingLifecycleService
         ]);
     }
 
+    public function approveRequest(Booking $booking): void
+    {
+        if ($booking->status !== BookingStatusEnum::AWAITING_ACCEPTANCE) {
+            return;
+        }
+        $booking->update(['status' => BookingStatusEnum::CONFIRMED,]);
+        $booking->bed->update(['status' => BedStatusEnum::RESERVED,]);
+    }
+
+    public function rejectRequest(Booking $booking): void
+    {
+        if ($booking->status !== BookingStatusEnum::AWAITING_ACCEPTANCE) {
+            return;
+        }
+        $booking->update(['status' => BookingStatusEnum::REJECTED,]);
+    }
+
     public function accept(Booking $booking): void
     {
         $booking->update([
